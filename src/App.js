@@ -1,6 +1,7 @@
 import {useState} from "react";
 import './App.css';
 import Box from "./component/Box";
+import Button from "./component/Button"
 
 // 1. 박스 2개(타이틀,사진,결과)
 // 2. 가위 바위 보 버튼이 있다.
@@ -10,68 +11,83 @@ import Box from "./component/Box";
 // 6. 승패에 따라 테두리 색이 바뀐다(이기면-초록,지면-빨강,비기면-검정)
 
 const choice = {
-  rock : {
-    name : "Rock",
-    img : "https://t3.ftcdn.net/jpg/00/55/21/18/360_F_55211893_pMzGwbg4p7yElUGfc868m9dUXaknoWkU.jpg"
+  rock:{
+    name:"Rock",
+    img:"https://blog.kakaocdn.net/dn/pSJwo/btqXJV1lACE/nx5XrxkCLWXh9UsnoS8vbK/img.png"
   },
   scissors:{
-    name : "Scissors",
-    img : "https://media.istockphoto.com/id/1043551106/vector/scissors-vector-cartoon.jpg?s=612x612&w=0&k=20&c=iu7Ca7ucLnq0HyalszRYYjO29XFnbWlnP2MpoMop0iU="
+    name:"Scissors",
+    img:"https://blog.kakaocdn.net/dn/HfURw/btqXKvOTNWK/gWTwPXEg9QzSV0ilOuwuak/img.png"
   },
   paper:{
-    name : "Paper",
-    img : "https://img.freepik.com/premium-vector/paper-cartoon-walking_309278-29798.jpg"
+    name:"Paper",
+    img:"https://blog.kakaocdn.net/dn/bmjB2s/btqXHhp6kpG/TH14W4U612SxKo9uuR2sB0/img.png"
   }
 }
-function App() {
-  const [userSelect,setUserSelect] = useState(null)
-  const [ComputerSelect,setComputerSelect] = useState(null)
-  const[result,setResult] = useState("")
 
-  const play = (userchoice) =>{
-    setUserSelect(choice[userchoice])
-    let computerChoice = randomChoice()
-    setComputerSelect(computerChoice);
-    setResult(judgement(choice[userchoice],computerChoice))
+function App() {
+  
+  const[userSelect,setuserSelect] = useState(null)
+  const[computerSelect,setcomputerSelect] = useState(null)
+  const[result,setresult] = useState("");
+  const[computerResult,setcomputerResult] = useState("");
+
+  const play =(userChoice)=>{
+    setuserSelect(choice[userChoice]);
+    let computerChoice = randomChoice();
+    setcomputerSelect(computerChoice);
+    setresult(judgement(choice[userChoice],computerChoice));
+    setcomputerResult(getcomputerResult(judgement(choice[userChoice],computerChoice)))
+
   }
+
 
   const judgement = (user,computer) =>{
-    console.log("user",user,"com",computer)
+    console.log(user,computer)
 
-    // user === computer 비김(tie)
-    // user === rock, computer === scissors user가 이김
-    // user === rock, computer === paper user가 짐
-    // user === scissors computer paper user가 이김
-    // user === scissors computer rock user가 짐
-    // user === paper, computer === rock user가 이김
-    // user === paper, computer === scissors user가 짐
+    // user === computer tie 비김
+    // user === rock, computer === scissors ,user win
+    // user === rock, computer === paper ,user lose
+    // user === scissors, computer === paper ,user win
+    // user === scissors, computer === rock ,user lose
+    // user === paper, computer === rock ,user win
+    // user === paper, computer === scissors ,user lose
 
     if(user.name === computer.name){
-      return "tie"
-    } else if(user.name === "Rock") return computer.name === "Scissors" ? "win" : "lose"
-    else if(user.name === "Scissors") return computer.name === "Paper" ? "win" : "lose"
-    else if(user.name === "Paper") return computer.name === "Rock" ? "win" : "lose"
-
+      return "Tie"
+    } else if(user.name ==="Rock") return computer.name === "Scissors" ? "Win" : "Lose"
+    else if(user.name ==="Scissors") return computer.name === "Paper" ? "Win" : "Lose"
+    else if(user.name ==="Paper") return computer.name === "Rock" ? "Win" : "Lose"
   }
 
-  const randomChoice=()=>{
-    let itemArray = Object.keys(choice); // 객체에 키값만 뽑아서 어레이로 만들어주는 함수다.
+  const getcomputerResult = (userResult) =>{
+    if(userResult === "Tie"){
+      return "Tie"
+    } else if (userResult === "Win"){
+      return "Lose"
+    } else if (userResult === "Lose"){
+      return "Win"
+    }
+    }
+
+
+  const randomChoice = () =>{
+    let itemArray = Object.keys(choice);
     let randomItem = Math.floor(Math.random()*itemArray.length);
     let final = itemArray[randomItem]
     return choice[final];
   }
-
   return (
-    <div>
+    <div className="full">
+    <div className="container">
     <div className="main">
-      <Box title="You" item={userSelect} result={result}/>
-      <Box title="Computer" item={ComputerSelect} result={result}/>
+    <Box title="User" item={userSelect} result={result} />
+    <Box title="Computer" item={computerSelect} result={computerResult}  />
     </div>
-    <div className="main">
-      <button onClick={()=>play("scissors")}>가위</button>
-      <button onClick={()=>play("rock")}>바위</button>
-      <button onClick={()=>play("paper")}>보</button>      
-    </div>
+      <div className="section-button">
+      <Button play={play} />
+      </div>
+      </div>
     </div>
   );
 }

@@ -24,23 +24,53 @@
   
 }
 
+.scoreboard{
+  position: absolute;
+  top: 5%;
+  padding-left: 10px;
+  padding-bottom:10px;
+  width: 80%;
+  border-bottom: 1px solid lightgray;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reset-btn{
+  background-color: white;
+  border: 1px solid lightcoral;
+  border-radius: 30px;
+  font-size: 15px;
+  padding: 3px 6px;
+  transition: background-color 0.5s ease, border-color 0.3s ease;
+}
+
+.reset-btn:hover{
+  background-color: lightcoral;
+  cursor: pointer;
+
+}
+
+
 
 .box{
   width: 25vw;
-  height: 70vh;
+  height: 50vh;
   text-align: center;
-  
-}
-
-.box h1,h2,img{
-  height: 100px;
-}
-
-.box h2{
   position: relative;
-  
-
+  bottom: 2em;
 }
+
+.box h1,h2,.item-img{
+  margin-bottom: 3em;
+}
+
+
+
+.main > div:nth-of-type(1) {
+  border-right: 1px solid #ccc;
+}
+
 
 .item-img{
   width: 100px;
@@ -55,6 +85,7 @@
   justify-content: center;
   border-top: 1px solid lightgray;
   width: 80%;
+  left: 10%;
   padding-top: 20px;
 }
 
@@ -79,8 +110,56 @@
 }
 
 
-
 .button-img {
   width: 60px;
   height: 60px;
 }
+
+/* 반응형 */
+@media only screen and (max-width: 600px) {
+  /* App box Css Style */
+
+  .container{
+    height: 500px;
+  }
+  .box{
+    height: 300px;
+    text-align: center;
+    position: relative;
+    bottom: 1em;
+  }
+
+  .box h1,h2,.item-img{
+    margin-bottom: 1em;
+    padding-bottom: 3em;
+  }
+
+
+  .item-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  h1, h2{
+    font-size: 18px;
+  }
+
+ 
+  .section-button button{
+    background-color: white;
+    border: 2px solid lightgray;
+    border-radius: 20%;
+    margin-right: 1em;
+  }
+  
+  .section-button button:hover{
+    background-color: antiquewhite;
+  }
+
+  .button-img {
+    width: 40px;
+    height: 40px;
+
+  }
+}
+

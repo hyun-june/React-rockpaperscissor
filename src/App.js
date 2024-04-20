@@ -31,6 +31,8 @@ function App() {
   const[computerSelect,setcomputerSelect] = useState(null)
   const[result,setresult] = useState("");
   const[computerResult,setcomputerResult] = useState("");
+  const[userScore,setuserScore] = useState(0);
+  const[comScore,setcomScore] = useState(0);
 
   const play =(userChoice)=>{
     setuserSelect(choice[userChoice]);
@@ -38,7 +40,7 @@ function App() {
     setcomputerSelect(computerChoice);
     setresult(judgement(choice[userChoice],computerChoice));
     setcomputerResult(getcomputerResult(judgement(choice[userChoice],computerChoice)))
-
+    updateScore(setresult);
   }
 
 
@@ -70,6 +72,19 @@ function App() {
     }
     }
 
+    const updateScore = (setresult) =>{
+      if(result === "Win"){
+        setuserScore(userScore+1);
+      } else if(result === "Lose"){
+        setcomScore(comScore+1);
+      }
+    }
+
+    const reset = () =>{
+      setuserScore(0);
+      setcomScore(0);
+    }
+
 
   const randomChoice = () =>{
     let itemArray = Object.keys(choice);
@@ -80,11 +95,15 @@ function App() {
   return (
     <div className="full">
     <div className="container">
-    <div className="main">
-    <Box title="User" item={userSelect} result={result} />
-    <Box title="Computer" item={computerSelect} result={computerResult}  />
+    <div className="scoreboard">
+      {userScore} : {comScore}
+      <div><button className="reset-btn" onClick={()=>reset()}>Reset</button></div>
     </div>
-      <div className="section-button">
+    <div className="main">
+    <Box  title="User" item={userSelect} result={result} />
+    <Box  title="Computer" item={computerSelect} result={computerResult}  />
+    </div>
+      <div>
       <Button play={play} />
       </div>
       </div>
